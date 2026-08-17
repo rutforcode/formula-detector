@@ -35,6 +35,18 @@ npm install
 npm run dev        # start the dev server (http://localhost:5173)
 ```
 
+## Live demo
+
+A hosted build is deployed to GitHub Pages and updates automatically on every
+push to `main`:
+
+**https://rutforcode.github.io/formula-detector/**
+
+The deploy is handled by the `Deploy to GitHub Pages` workflow in
+`.github/workflows/deploy.yml`. To deploy your own fork, enable Pages in the
+repo settings (Source: *GitHub Actions*) and change the `base` in
+`vite.config.ts` to match your repo name.
+
 Other scripts:
 
 ```bash
