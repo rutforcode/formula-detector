@@ -1,0 +1,373 @@
+/* ============================================================
+   Formula Detector — styles
+   Modern, minimal: system font, cards, one accent color.
+   ============================================================ */
+
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --border: #e2e5ea;
+  --text: #1c2330;
+  --muted: #6b7280;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: #eef0fe;
+  --code-bg: #f3f4f6;
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+/* ---------- header / toolbar ---------- */
+
+.app-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.tagline {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-ghost:hover {
+  background: var(--code-bg);
+  border-color: var(--border);
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111827;
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  z-index: 10;
+  animation: toast-in 0.18s ease;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ---------- layout ---------- */
+
+.workspace {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.pane {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.pane-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  background: #fafbfc;
+}
+
+.pane-hint {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ---------- editor ---------- */
+
+.editor {
+  width: 100%;
+  min-height: 340px;
+  resize: vertical;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  font: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text);
+  background: transparent;
+}
+
+.editor::placeholder {
+  color: #9aa1ab;
+}
+
+/* ---------- preview ---------- */
+
+.preview-content {
+  flex: 1;
+  padding: 14px 16px;
+  min-height: 340px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 15px;
+  color: var(--text);
+}
+
+.formula-inline {
+  white-space: nowrap;
+}
+
+.formula-block {
+  margin: 6px 0;
+  text-align: center;
+}
+
+/* ---------- detected formulas table ---------- */
+
+.detected {
+  margin-top: 0;
+}
+
+.empty-state {
+  margin: 0;
+  padding: 18px 16px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+.empty-state code {
+  background: var(--code-bg);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.detected-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.detected-table th {
+  text-align: left;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  background: #fafbfc;
+}
+
+.detected-table td {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.detected-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.row-raw {
+  font-weight: 500;
+  min-width: 180px;
+}
+
+.row-latex code {
+  background: var(--code-bg);
+  border-radius: 5px;
+  padding: 2px 7px;
+  font-size: 12.5px;
+  word-break: break-all;
+}
+
+.row-mode {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.row-render-cell {
+  min-width: 120px;
+  text-align: center;
+}
+
+.row-render {
+  display: inline-block;
+}
+
+/* ============================================================
+   MathJax (SVG output) container styles.
+   mathjax-full does not auto-insert its stylesheet when used via
+   a bundler, so we provide the equivalent rules here.
+   ============================================================ */
+
+mjx-container {
+  display: inline-block;
+  line-height: 0;
+  text-indent: 0;
+  text-align: left;
+  text-transform: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  direction: ltr;
+  font-family: inherit;
+  font-feature-settings: normal;
+}
+
+mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+  min-height: 1px;
+  min-width: 1px;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 860px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .editor,
+  .preview-content {
+    min-height: 220px;
+  }
+
+  .app {
+    padding: 16px 12px 40px;
+  }
+}
