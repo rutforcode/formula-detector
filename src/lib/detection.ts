@@ -21,7 +21,7 @@ import { LatexDetector } from './latexDetector';
 import { LLMDetector } from './llmDetector';
 import type { DetectedFormula, FormulaDetector } from './types';
 
-export type DetectorEngine = 'pattern' | 'latex+pattern' | 'llm';
+export type DetectorEngine = 'latex+pattern' | 'latex' | 'pattern' | 'llm';
 
 /**
  * Chain two detectors, excluding regions claimed by the first from the second.
@@ -56,6 +56,8 @@ export function createDetector(engine: DetectorEngine = 'latex+pattern'): Formul
   switch (engine) {
     case 'pattern':
       return new PatternDetector();
+    case 'latex':
+      return new LatexDetector();
     case 'latex+pattern':
       return chain(new LatexDetector(), new PatternDetector());
     case 'llm':

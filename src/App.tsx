@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { createDetector } from './lib/detection';
+import { createDetector, type DetectorEngine } from './lib/detection';
 import Editor from './components/Editor';
 import Preview from './components/Preview';
 import DetectedList from './components/DetectedList';
@@ -55,12 +55,19 @@ async function copyToClipboard(textToCopy: string): Promise<boolean> {
   }
 }
 
+const MODES: { value: DetectorEngine; label: string; hint: string }[] = [
+  { value: 'latex+pattern', label: 'Both', hint: 'LaTeX from LLMs + natural math' },
+  { value: 'latex', label: 'LaTeX only', hint: '$...$, $$...$$, \frac, \sqrt…' },
+  { value: 'pattern', label: 'Natural math', hint: 'x^2 + y^2 = z^2, a/b…' },
+];
+
 export default function App() {
   const [text, setText] = useState(SAMPLE);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [engine, setEngine] = useState<DetectorEngine>('latex+pattern');
   const previewRef = useRef<HTMLDivElement>(null);
 
-  const detector = useMemo(() => createDetector(), []);
+  const detector = useMemo(() => createDetector(engine), [engine]);
   const formulas = useMemo(() => detector.detect(text), [detector, text]);
 
   /** Converted text: original text with LaTeX delimiters around formulas. */
@@ -107,6 +114,20 @@ export default function App() {
           </p>
         </div>
         <div className="toolbar">
+          <div className="mode-selector" role="radiogroup" aria-label="Detection mode">
+            {MODES.map((m) => (
+              <button
+                key={m.value}
+                className={`mode-btn${engine === m.value ? ' active' : ''}`}
+                onClick={() => setEngine(m.value)}
+                title={m.hint}
+                role="radio"
+                aria-checked={engine === m.value}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
           <span className="badge">{formulas.length} formula{formulas.length === 1 ? '' : 's'} found</span>
           <button className="btn" onClick={handleCopy} title="Copy the text with formulas as \( ... \) LaTeX">
             Copy

@@ -76,6 +76,43 @@ body {
   flex-wrap: wrap;
 }
 
+.mode-selector {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--card);
+}
+
+.mode-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  cursor: pointer;
+  color: var(--muted);
+  border-right: 1px solid var(--border);
+  transition: background 0.12s ease, color 0.12s ease;
+  white-space: nowrap;
+}
+
+.mode-btn:last-child {
+  border-right: none;
+}
+
+.mode-btn:hover {
+  background: var(--code-bg);
+}
+
+.mode-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
 .badge {
   background: var(--accent-soft);
   color: var(--accent);
