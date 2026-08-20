@@ -104,6 +104,49 @@ export default function App() {
 
   const handleClear = () => setText('');
 
+  /** Download a standalone .html file that renders the converted text via MathJax CDN. */
+  const handleExportHtml = () => {
+    // Escape </script> in the content to prevent injection.
+    const safeText = convertedText
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formula Detector — Export</title>
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['\\\\(', '\\)']], displayMath: [['\\\\[', '\\]']] },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'code'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+  <style>
+    body { max-width: 800px; margin: 2rem auto; padding: 0 1.5rem;
+           font-family: system-ui, -apple-system, sans-serif;
+           font-size: 16px; line-height: 1.7; color: #1c2330; }
+    code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+${safeText}
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'formulas.html';
+    a.click();
+    URL.revokeObjectURL(url);
+    flash('Downloaded formulas.html');
+  };
+
   return (
     <div className="app">
       <header className="app-header">
@@ -134,6 +177,9 @@ export default function App() {
           </button>
           <button className="btn" onClick={handleCopyHtml} title="Copy the rendered preview as HTML">
             Copy HTML
+          </button>
+          <button className="btn" onClick={handleExportHtml} title="Download a standalone .html file with MathJax CDN">
+            Export HTML
           </button>
           <button className="btn btn-ghost" onClick={handleClear} title="Clear the input">
             Clear
