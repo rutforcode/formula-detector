@@ -4,15 +4,30 @@ import Editor from './components/Editor';
 import Preview from './components/Preview';
 import DetectedList from './components/DetectedList';
 
-const SAMPLE = `The area of a circle is A = pi r^2. If r = 5, then A = 25pi.
-
-Einstein's famous equation is E = mc^2, and by Pythagoras, x^2 + y^2 = z^2.
-
-∫_0^∞ e^(-x) dx = 1
-
-lim(x→0) sin(x)/x = 1
-
-Σ(i=1 to n) i = n(n+1)/2`;
+// Using array join to avoid template-literal escape confusion with LaTeX backslashes.
+// Each '\\\\' in the source file becomes '\' at runtime (single backslash = valid LaTeX).
+const SAMPLE = [
+  'The area of a circle is A = pi r^2. If r = 5, then A = 25pi.',
+  '',
+  "Einstein's famous equation is E = mc^2, and by Pythagoras, x^2 + y^2 = z^2.",
+  '',
+  '\u222B_0^\u221E e(-x) dx = 1',
+  '',
+  'lim(x\u21920) sin(x)/x = 1',
+  '',
+  '\u03A3(i=1 to n) i = n(n+1)/2',
+  '',
+  '--- From an offline GPT model ---',
+  '',
+  'The quadratic formula is $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$',
+  '',
+  'Display math:',
+  '$$\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}$$',
+  '',
+  'Inline: \\(\\alpha + \\beta = \\gamma\\)',
+  '',
+  'Bare commands: \\frac{1}{2} and \\sqrt{x^2 + y^2}',
+].join('\n');
 
 /** Best-effort clipboard write with a legacy fallback. */
 async function copyToClipboard(textToCopy: string): Promise<boolean> {
@@ -88,7 +103,7 @@ export default function App() {
         <div>
           <h1>Formula Detector</h1>
           <p className="tagline">
-            Paste plain text — inline math is detected and rendered with MathJax 3.
+            Paste plain text or LaTeX from an LLM — math is detected and rendered with MathJax 3.
           </p>
         </div>
         <div className="toolbar">
